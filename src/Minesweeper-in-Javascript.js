@@ -106,7 +106,7 @@ function getCoordinates() {
                             gridArr[coordY - 1][coordX - 1] = clear;
                             if (!gameOngoing) {
                                 gameOngoing = true;
-                                bombGeneration();
+                                bombGeneration(10);
                             }
                             gridUpdate();
                         }
@@ -123,13 +123,13 @@ function getCoordinates() {
 
 
 // bombGeneration() -> randomally generate two bombs within gridArr
-function bombGeneration() {
+function bombGeneration(num) {
     let safeLocations = []
 
     // find all possible locations where the user has not selected and where there is not already a bomb
     for(let i = 0; i < gridArr.length; i++) {
         for(let j = 0; j < gridArr[i].length; j++) { 
-            if (gridArr[i][j] === unrevealed || gridArr[i][j] !== bomb) {
+            if (gridArr[i][j] === unrevealed && gridArr[i][j] !== bomb) {
                 // push those locations to the safeLocations array
                 safeLocations.push([i, j])
             }
@@ -142,11 +142,17 @@ function bombGeneration() {
     let loc = safeLocations[Math.floor(Math.random() * safeLocations.length)] 
     gridArr[loc[0]][loc[1]] = bomb
 
-    // run the function again to generate a second bomb
-    if (!bombGen) {
-        bombGen = true;
-        bombGeneration();
-    }
+    for(let i = 0; i < num - 1; i++) {
+        console.log("bombGen", i)
+        bombGeneration()
+    } 
+
+
+    // // run the function again to generate a second bomb
+    // if (!bombGen) {
+    //     bombGen = true;
+    //     bombGeneration();
+    // }
     // invoke gridUpdate() to update the gridArr with the newly generated bombs
     calculateNumbers()
 }
@@ -160,7 +166,7 @@ function gridUpdate() {
     console.clear();
     let grid = "   "; // Initial spacing for column numbers
     //console.log("-------NEW-------BOARD-------STATE------- ");
-    //console.log(gridArr);
+    console.log(gridArr);
 
     for(let i = 0; i < gridArr.length; i++) {
         for(let j = 0; j < gridArr[i].length; j++) {
@@ -197,7 +203,10 @@ function gridUpdate() {
             grid += "⚑  "; 
         } else if (gridArr[i][j] === unrevealed || gridArr[i][j] === bomb) {
             grid += "☐  "; 
-        } else {
+        } //else if(gridArr[i][j] === bomb) {
+        //     grid += "B  ";
+        // }
+        else {
             // count variable displays the number of bombs adjacent to each cell
             grid += gridArr[i][j] + "  "; 
         }
@@ -240,4 +249,4 @@ function calculateNumbers() {
 
 
 // call startGame() to begin the game
-startGame(5, 5)
+startGame(9, 9)
