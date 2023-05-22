@@ -166,7 +166,7 @@ function gridUpdate() {
     console.clear();
     let grid = "   "; // Initial spacing for column numbers
     //console.log("-------NEW-------BOARD-------STATE------- ");
-    console.log(gridArr);
+    //console.log(gridArr);
 
     for(let i = 0; i < gridArr.length; i++) {
         for(let j = 0; j < gridArr[i].length; j++) {
